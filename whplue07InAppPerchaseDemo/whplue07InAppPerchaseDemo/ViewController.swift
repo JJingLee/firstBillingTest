@@ -47,6 +47,7 @@ class ViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTran
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        //add observer to see whats app going on.
         SKPaymentQueue.defaultQueue().addTransactionObserver(self);
         
         urlLabel.delegate = self;
@@ -56,6 +57,13 @@ class ViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTran
         
         productID?.append("whplue07TestProduct1");
         productID?.append("testProduct2");
+        productID?.append("testProduct3");
+        productID?.append("testProduct1");
+        
+        
+//        var productID:NSSet = NSSet(object: "string")
+//        var productsRequest:SKProductsRequest = SKProductsRequest()
+//        var products = [String : SKProduct]()
         
         requestProductInfo()
         
@@ -78,10 +86,12 @@ class ViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTran
             
             productRequest.delegate = self
             productRequest.start()
+            
         }
         else {
             print("Cannot perform In App Purchases.")
         }
+        
     }
     
     @IBAction func sendPayment(sender: UIButton) {
@@ -114,7 +124,7 @@ class ViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTran
         if response.products.count != 0 {
             for product in response.products {
                 products?.append(product as SKProduct);
-                print("products : \(product.localizedTitle)")
+                print("product : \(product.localizedTitle)")
             }
             
             //tblProducts.reloadData()
@@ -126,7 +136,7 @@ class ViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTran
         }
         
         if response.invalidProductIdentifiers.count != 0 {
-            print(response.invalidProductIdentifiers.description)
+            print("invalid :" + response.invalidProductIdentifiers.description);
         }
     }
     
@@ -163,6 +173,7 @@ class ViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTran
                     
                 case SKPaymentTransactionState.Failed:
                     print("Transaction Failed")
+                    print("error msg : \(transaction.error?.localizedDescription)");
                     SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 default:
                     break

@@ -16,7 +16,7 @@ class HTTPAction: NSObject, NSURLSessionDelegate {
     
     func setURL(url : String)
     {
-        serverURL = url;
+        //serverURL = url;
     }
     
     func httpPostToSever(Data : NSData, callBack : (NSData, NSURLResponse, NSError)->Void) {
@@ -64,6 +64,8 @@ class HTTPAction: NSObject, NSURLSessionDelegate {
     
     func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
         print("success");
+        
+        //for ssl tolerent
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
             let credential = NSURLCredential(trust: challenge.protectionSpace.serverTrust!)
             completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, credential)
